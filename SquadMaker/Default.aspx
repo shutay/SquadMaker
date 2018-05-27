@@ -12,31 +12,35 @@
             <h3>Generate Squads</h3>
             Number of squads: <asp:TextBox runat="server" ID="txtNumSquads" />
             <asp:Button ID="btnGenerateSquads" runat="server" OnClick="btnGenerateSquads_Click" Text="Generate" />
+            <asp:Label ID="lblError" runat="server" ForeColor="Red" />
         </div>
         <div id="divWaitingList">
             <h3>Waiting List</h3>
-            <asp:GridView ID="grdWaitList" runat="server" AutoGenerateColumns="false" OnRowDataBound="grdWaitList_RowDataBound">
+            <asp:GridView ID="grdWaitList" runat="server" AutoGenerateColumns="false">
                 <Columns>
                     <asp:BoundField HeaderText="Player" DataField="FullName" />
-                     <asp:TemplateField HeaderText="Skating">
-                        <ItemTemplate>
-                            <asp:Label ID="lblSkating" runat="server" Text='' />
-                        </ItemTemplate>
-                     </asp:TemplateField>
-                    <asp:TemplateField HeaderText="Shooting">
-                        <ItemTemplate>
-                            <asp:Label ID="lblShooting" runat="server" Text='' />
-                        </ItemTemplate>
-                     </asp:TemplateField>
-                    <asp:TemplateField HeaderText="Checking">
-                        <ItemTemplate>
-                            <asp:Label ID="lblChecking" runat="server" Text='' />
-                        </ItemTemplate>
-                     </asp:TemplateField>
+                    <asp:BoundField HeaderText="Skating" DataField="SkatingRating" />
+                    <asp:BoundField HeaderText="Shooting" DataField="ShootingRating" />
+                    <asp:BoundField HeaderText="Checking" DataField="CheckingRating" />
                 </Columns>
             </asp:GridView>
         </div>
-        <div id="divSquads"></div>
+        <div id="divSquads">
+            <h3>Squads</h3>
+            <asp:Repeater ID="rptSquads" runat="server">
+                <ItemTemplate>
+                    <asp:GridView ID="grdSquad" runat="server" AutoGenerateColumns="false" ShowFooter="true">
+                        <Columns>
+                            <asp:BoundField HeaderText="Player" DataField="FullName" />
+                            <asp:BoundField HeaderText="Skating" DataField="SkatingRating" />
+                            <asp:BoundField HeaderText="Shooting" DataField="ShootingRating" />
+                            <asp:BoundField HeaderText="Checking" DataField="CheckingRating" />
+                        </Columns>
+                    </asp:GridView>
+                    <br />
+                </ItemTemplate>
+            </asp:Repeater>
+        </div>
     </form>
 </body>
 </html>

@@ -12,14 +12,14 @@ namespace SquadMaker.Service
 {
     public class PlayerAPI
     {
-        public static Players GetAllPlayers()
+        public static PlayerList GetAllPlayers()
         {
             if (HttpRuntime.Cache["PlayerList"] != null)
-                return HttpRuntime.Cache["PlayerList"] as Players;
+                return HttpRuntime.Cache["PlayerList"] as PlayerList;
             
             string testFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testjson.txt");
             string json = File.ReadAllText(testFile);
-            Players players = Deserialize<Players>(json);
+            PlayerList players = Deserialize<PlayerList>(json);
 
             HttpRuntime.Cache.Insert("PlayerList", players, null, DateTime.Now.AddHours(1), Cache.NoSlidingExpiration);
             return players;
