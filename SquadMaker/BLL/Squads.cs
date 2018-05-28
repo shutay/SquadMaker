@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using SquadMaker.Model;
 
 namespace SquadMaker.BLL
@@ -72,7 +71,7 @@ namespace SquadMaker.BLL
         }
 
         /// <summary>
-        /// Finds the player that is the furthest from having average skills
+        /// Loops through the player list to find the player whose total skills are furthest from average
         /// </summary>
         protected static KeyValuePair<PlayerData, double> GetFurthestPlayerByDistance(List<PlayerData> players, double shootingAvg, double skatingAvg, double checkingAvg)
         {
@@ -92,7 +91,7 @@ namespace SquadMaker.BLL
         }
 
         /// <summary>
-        /// Of all the remaining players, finds the best player that will make the current squad numbers closest to average
+        /// Of all the remaining players, loops thorugh the playerlist to find the best player that will make the current squad numbers closest to average
         /// </summary>
         protected static PlayerData GetBestBalancingPlayer(List<PlayerData> squad, List<PlayerData> remainingPlayers, double shootingAvg, double skatingAvg, double checkingAvg)
         {

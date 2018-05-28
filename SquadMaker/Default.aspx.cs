@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using System.Web.UI;
 using System.Web.UI.WebControls;
 using SquadMaker.BLL;
 using SquadMaker.Model;
@@ -12,11 +10,13 @@ namespace SquadMaker
 {
     public partial class _Default : System.Web.UI.Page
     {
+        private IPlayerAPI _API = new TestPlayerAPI();
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
-                PlayerList allPlayers = PlayerAPI.GetAllPlayers();
+                PlayerList allPlayers = _API.GetAllPlayers();
                 grdWaitList.DataSource = allPlayers.Players;
                 grdWaitList.DataBind();
 
@@ -40,7 +40,7 @@ namespace SquadMaker
                 return;
             }
 
-            List<PlayerData> playerList = PlayerAPI.GetAllPlayers().Players;
+            List<PlayerData> playerList = _API.GetAllPlayers().Players;
             if (numsquads > playerList.Count())
             {
                 lblError.Text = "There are not enough players for the number of squads chosen";
@@ -81,8 +81,8 @@ namespace SquadMaker
             txtNumSquads.Text = "";
 
             divWaitingList.Visible = true;
-            lblNumWaitList.Text = PlayerAPI.GetAllPlayers().Players.Count().ToString();
-            grdWaitList.DataSource = PlayerAPI.GetAllPlayers().Players;
+            lblNumWaitList.Text = _API.GetAllPlayers().Players.Count().ToString();
+            grdWaitList.DataSource = _API.GetAllPlayers().Players;
             grdWaitList.DataBind();
 
             divSquads.Visible = false;

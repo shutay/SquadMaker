@@ -1,18 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Json;
 using System.Text;
-using System.Linq;
 using System.Web;
 using System.Web.Caching;
 using SquadMaker.Model;
 
 namespace SquadMaker.Service
 {
-    public class PlayerAPI
+    public class TestPlayerAPI : IPlayerAPI
     {
-        public static PlayerList GetAllPlayers()
+        public PlayerList GetAllPlayers()
         {
             if (HttpRuntime.Cache["PlayerList"] != null)
                 return HttpRuntime.Cache["PlayerList"] as PlayerList;
@@ -25,7 +23,7 @@ namespace SquadMaker.Service
             return players;
         }
 
-        private static T Deserialize<T>(string json) where T : class
+        private T Deserialize<T>(string json) where T : class
         {
             byte[] b = Encoding.UTF8.GetBytes(json);
             MemoryStream m = new MemoryStream(b);
