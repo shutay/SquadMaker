@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using SquadMaker.BLL;
 using SquadMaker.Model;
 using SquadMaker.Service;
 
@@ -18,6 +19,8 @@ namespace SquadMaker
                 PlayerList allPlayers = PlayerAPI.GetAllPlayers();
                 grdWaitList.DataSource = allPlayers.Players;
                 grdWaitList.DataBind();
+
+                lblNumWaitList.Text = allPlayers.Players.Count().ToString();
             }
         }
 
@@ -28,7 +31,7 @@ namespace SquadMaker
             int numsquads;
             if (!Int32.TryParse(txtNumSquads.Text, out numsquads))
             {
-                lblError.Text = "Invalid number of squads. Number of Squads should be an integer.";
+                lblError.Text = "Invalid number of squads. Number of squads should be an integer.";
                 return;
             }
             if (numsquads < 1)
@@ -44,27 +47,47 @@ namespace SquadMaker
                 return;
             }
 
-            SquadData squadData = new SquadData(playerList);
-            squadData.GenerateSquads(numsquads);
+            List<PlayerData> remainingPlayers;
+            List<PlayerData>[] squads = Squads.GenerateSquads(numsquads, playerList, out remainingPlayers);
 
-            rptSquads.DataSource = squadData.Squads;
+            divSquads.Visible = squads.Count() > 0;
+            lblNumSquads.Text = squads.Count().ToString();
+            lblNumPlayers.Text = (squads.Count() > 0) ? squads[0].Count.ToString() : "0";
+
+            rptSquads.DataSource = squads;
             rptSquads.DataBind();
 
             int i = 0;
             foreach (RepeaterItem item in rptSquads.Items)
             {
                 GridView grd = item.FindControl("grdSquad") as GridView;
-                grd.DataSource = squadData.Squads[i];
+                grd.DataSource = squads[i];
                 grd.DataBind();
                 grd.FooterRow.Cells[0].Text = "Average";
-                grd.FooterRow.Cells[1].Text = Math.Round(squadData.Squads[i].Average(ss => ss.SkatingRating),2).ToString();
-                grd.FooterRow.Cells[2].Text = Math.Round(squadData.Squads[i].Average(ss => ss.ShootingRating),2).ToString();
-                grd.FooterRow.Cells[3].Text = Math.Round(squadData.Squads[i].Average(ss => ss.CheckingRating),2).ToString();
+                grd.FooterRow.Cells[1].Text = Math.Round(squads[i].Average(ss => ss.SkatingRating),2).ToString();
+                grd.FooterRow.Cells[2].Text = Math.Round(squads[i].Average(ss => ss.ShootingRating),2).ToString();
+                grd.FooterRow.Cells[3].Text = Math.Round(squads[i].Average(ss => ss.CheckingRating),2).ToString();
                 i++;
             }
 
-            grdWaitList.DataSource = squadData.RemainingPlayers;
+            divWaitingList.Visible = remainingPlayers.Count() > 1;
+            lblNumWaitList.Text = remainingPlayers.Count().ToString();
+            grdWaitList.DataSource = remainingPlayers;
             grdWaitList.DataBind();
+        }
+
+        protected void btnReset_Click(object sender, EventArgs e)
+        {
+            txtNumSquads.Text = "";
+
+            divWaitingList.Visible = true;
+            lblNumWaitList.Text = PlayerAPI.GetAllPlayers().Players.Count().ToString();
+            grdWaitList.DataSource = PlayerAPI.GetAllPlayers().Players;
+            grdWaitList.DataBind();
+
+            divSquads.Visible = false;
+            rptSquads.DataSource = null;
+            rptSquads.DataBind();
         }
     }
 }

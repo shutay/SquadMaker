@@ -2,44 +2,43 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using SquadMaker.Model;
 
-namespace SquadMaker.Model
+namespace SquadMaker.BLL
 {
-    public class SquadData
+    public class Squads
     {
-        public List<PlayerData> AllPlayers { get; set; }
-        public List<PlayerData> RemainingPlayers { get; set; }
-        public List<PlayerData>[] Squads { get; set; }
-
-        public SquadData(List<PlayerData> players)
-        {
-            AllPlayers = players;
-        }
-
         /// <summary>
         /// Gererates the number of squads asked for
         /// </summary>
-        public void GenerateSquads(int numSquads)
+        public static List<PlayerData>[] GenerateSquads(int numSquads, List<PlayerData> allPlayers, out List<PlayerData> remainingPlayers)
         {
-            int numPlayersPerSquad = AllPlayers.Count() / numSquads;
-            double shootingAvg = AllPlayers.Select(p => p.ShootingRating).Average();
-            double skatingAvg = AllPlayers.Select(p => p.SkatingRating).Average();
-            double checkingAvg = AllPlayers.Select(p => p.CheckingRating).Average();
-
-            List<PlayerData> remainingPlayers = new List<PlayerData>(AllPlayers);
+            remainingPlayers = new List<PlayerData>(allPlayers);
+            if (numSquads <= 0 || allPlayers.Count() < numSquads)
+            {
+                return null;
+            }
+            
+            int numPlayersPerSquad = allPlayers.Count() / numSquads;
+            double shootingAvg = allPlayers.Select(p => p.ShootingRating).Average();
+            double skatingAvg = allPlayers.Select(p => p.SkatingRating).Average();
+            double checkingAvg = allPlayers.Select(p => p.CheckingRating).Average();
+            
+            // initialize all squads
             List<PlayerData>[] squads = new List<PlayerData>[numSquads];
             for (int i = 0; i < squads.Count(); i++)
             {
                 squads[i] = new List<PlayerData>();
             }
 
+            // loop though until all squads have enough players
             while (!squads.All(s => s.Count == numPlayersPerSquad))
             {
                 for (int i = 0; i < squads.Count(); i++)
                 {
                     if (squads[i].Count() == numPlayersPerSquad) { continue; }
 
-                    // add single player to squad. if the squad only needs 1 extra person, add the best person you can, otherwise the worst
+                    // add single player to squad. if the squad only needs 1 extra person, add the best person you can, otherwise use the person least closest to average
                     PlayerData player = (squads[i].Count() == numPlayersPerSquad - 1) ?
                         GetBestBalancingPlayer(squads[i], remainingPlayers, shootingAvg, skatingAvg, checkingAvg) :
                         GetFurthestPlayerByDistance(remainingPlayers, shootingAvg, skatingAvg, checkingAvg).Key;
@@ -54,8 +53,8 @@ namespace SquadMaker.Model
                         + Math.Abs(squads[i].Sum(s => s.SkatingRating) - (skatingAvg * squads[i].Count))
                         + Math.Abs(squads[i].Sum(s => s.CheckingRating) - (checkingAvg * squads[i].Count)));
 
-                    // while the squad still has space, and the player with the furthest distance is better than the current squad distance from average
-                    // continue trying to balance the squad
+                    // while the squad is not full, check to see if the next person furthest from average is closer to the average than the squad
+                    // if they are, continue trying to move the squad closer to average
                     while (furthestPlayer.Value < currSquadDistance && squads[i].Count != numPlayersPerSquad)
                     {
                         PlayerData balancingPlayer = GetBestBalancingPlayer(squads[i], remainingPlayers, shootingAvg, skatingAvg, checkingAvg);
@@ -69,12 +68,11 @@ namespace SquadMaker.Model
                     }
                 }
             }
-            RemainingPlayers = remainingPlayers;
-            Squads = squads;
+            return squads;
         }
 
         /// <summary>
-        /// Finds the player that is the furthest from having average scores
+        /// Finds the player that is the furthest from having average skills
         /// </summary>
         protected static KeyValuePair<PlayerData, double> GetFurthestPlayerByDistance(List<PlayerData> players, double shootingAvg, double skatingAvg, double checkingAvg)
         {

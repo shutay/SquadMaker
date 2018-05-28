@@ -31,6 +31,15 @@ namespace SquadMaker {
         protected global::System.Web.UI.WebControls.Button btnGenerateSquads;
         
         /// <summary>
+        /// btnReset control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnReset;
+        
+        /// <summary>
         /// lblError control.
         /// </summary>
         /// <remarks>
@@ -40,13 +49,31 @@ namespace SquadMaker {
         protected global::System.Web.UI.WebControls.Label lblError;
         
         /// <summary>
-        /// grdWaitList control.
+        /// divSquads control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView grdWaitList;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divSquads;
+        
+        /// <summary>
+        /// lblNumSquads control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblNumSquads;
+        
+        /// <summary>
+        /// lblNumPlayers control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblNumPlayers;
         
         /// <summary>
         /// rptSquads control.
@@ -56,5 +83,32 @@ namespace SquadMaker {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Repeater rptSquads;
+        
+        /// <summary>
+        /// divWaitingList control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divWaitingList;
+        
+        /// <summary>
+        /// lblNumWaitList control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblNumWaitList;
+        
+        /// <summary>
+        /// grdWaitList control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView grdWaitList;
     }
 }

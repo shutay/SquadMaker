@@ -1,0 +1,21 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="SquadMaker.master.cs" Inherits="SquadMaker.SquadMaker" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    <title>Squad Maker</title>
+    <link rel="stylesheet" type="text/css" href="Assets/SquadMaker.css" />
+</head>
+<body>
+    <form runat="server">
+        <div id="header">
+            <h1>Squad Maker</h1>
+        </div>
+        <div id="main">
+            <asp:ContentPlaceHolder ID="Main" runat="server">
+            </asp:ContentPlaceHolder>
+        </div>
+    </form>
+</body>
+</html>

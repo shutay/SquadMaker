@@ -1,0 +1,47 @@
+﻿body {
+    font-family:Arial;
+}
+
+div#header{
+    background-color: darkslategrey;
+    padding: 15px;
+}
+div#header h1{
+    padding:0px;
+    margin:0px;
+    color: white;
+}
+
+div#main {
+    padding: 0px 10px;
+}
+
+.defaultGrid{
+    min-width:500px;
+}
+
+.defaultGrid th {
+    border: 1px solid #ddd;
+    background-color:cadetblue;
+    color:white;
+    padding:5px 8px;
+    text-align:left;
+}
+
+.defaultGrid td {
+    border: 1px solid #ddd;
+    padding:3px 8px;
+    min-width:75px;
+}
+
+.defaultGrid tr:nth-child(odd) {
+    background-color:#f2f2f2;
+}
+
+.defaultGrid tr:last-child{
+    font-weight:bold;
+}
+
+.defaultGrid.waitListGrid th{
+    background-color:darkmagenta;
+}

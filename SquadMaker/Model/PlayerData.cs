@@ -23,7 +23,7 @@ namespace SquadMaker.Model
         [DataMember(Name = "lastName")]
         public string LastName { get; set; }
         [DataMember(Name = "skills")]
-        public PlayerSkill[] Skills { get; set; }
+        public List<PlayerSkill> Skills { get; set; }
 
         public string FullName { get { return FirstName + " " + LastName; } }
         public int ShootingRating { get { return Skills.Single(s => s.Type == "Shooting").Rating;} }
