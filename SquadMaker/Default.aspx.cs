@@ -70,7 +70,7 @@ namespace SquadMaker
                 i++;
             }
 
-            divWaitingList.Visible = remainingPlayers.Count() > 1;
+            divWaitingList.Visible = remainingPlayers.Count() >= 1;
             lblNumWaitList.Text = remainingPlayers.Count().ToString();
             grdWaitList.DataSource = remainingPlayers;
             grdWaitList.DataBind();

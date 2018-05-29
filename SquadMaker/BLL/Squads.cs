@@ -37,7 +37,8 @@ namespace SquadMaker.BLL
                 {
                     if (squads[i].Count() == numPlayersPerSquad) { continue; }
 
-                    // add single player to squad. if the squad only needs 1 extra person, add the best person you can, otherwise use the person least closest to average
+                    // Add single player to squad. If the squad only has one space left, add the best person you can
+                    // if not, choose the person least closest to average (to get rid of outliers first)
                     PlayerData player = (squads[i].Count() == numPlayersPerSquad - 1) ?
                         GetBestBalancingPlayer(squads[i], remainingPlayers, shootingAvg, skatingAvg, checkingAvg) :
                         GetFurthestPlayerByDistance(remainingPlayers, shootingAvg, skatingAvg, checkingAvg).Key;
@@ -47,13 +48,13 @@ namespace SquadMaker.BLL
                     // if adding the single player gives us the max # per squad, continue to the next squad
                     if (squads[i].Count() == numPlayersPerSquad) { continue; }
 
+                    // From the remaining players, get the person least closest to average
+                    // If that person is closer to the average than the squad's average, then continue trying to move the squad closer to average
                     KeyValuePair<PlayerData, double> furthestPlayer = GetFurthestPlayerByDistance(remainingPlayers, shootingAvg, skatingAvg, checkingAvg);
                     double currSquadDistance = (Math.Abs(squads[i].Sum(s => s.ShootingRating) - (shootingAvg * squads[i].Count))
                         + Math.Abs(squads[i].Sum(s => s.SkatingRating) - (skatingAvg * squads[i].Count))
                         + Math.Abs(squads[i].Sum(s => s.CheckingRating) - (checkingAvg * squads[i].Count)));
 
-                    // while the squad is not full, check to see if the next person furthest from average is closer to the average than the squad
-                    // if they are, continue trying to move the squad closer to average
                     while (furthestPlayer.Value < currSquadDistance && squads[i].Count != numPlayersPerSquad)
                     {
                         PlayerData balancingPlayer = GetBestBalancingPlayer(squads[i], remainingPlayers, shootingAvg, skatingAvg, checkingAvg);
