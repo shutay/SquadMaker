@@ -21,7 +21,9 @@
 </ul>
 <h2>Usage</h2>
 <p>The home page contains a control that allows a user to enter their desired number of squads, and shows a waiting list of all players.</p>
-[!ScreenShot](/ReadMeImages/SquadMaker_Default.png)
+[!ScreenShot](ReadMeImages/SquadMaker_Default.png)
 <p>When the user clicks on the Generate button, the generated squads will be displayed in tables that show the player names, skating rating, shooting rating, and checking rating. At the bottom of each squad table, the user can see the average skating, shooting, and checking rating for the squad. Each squad will have the same number of players.</p>
+[!ScreenShot](SquadMaker_SquadsNoWaitlist.png)
 <p>If there are players left over that cannot be assigned to a squad, they will be displayed below the squad lists in a Waiting List table.</p>
+[!ScreenShot](https://github.com/shutay/SquadMaker/blob/master/ReadMeImages/SquadMaker_SquadsWithWaitlist.png)
 <p>Clicking on the reset button will clear out any created squads and put all the players back into the Waiting List table.</p>
