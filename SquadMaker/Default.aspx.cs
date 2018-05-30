@@ -47,33 +47,40 @@ namespace SquadMaker
                 return;
             }
 
-            List<PlayerData> remainingPlayers;
-            List<PlayerData>[] squads = Squads.GenerateSquads(numsquads, playerList, out remainingPlayers);
-
-            divSquads.Visible = squads.Count() > 0;
-            lblNumSquads.Text = squads.Count().ToString();
-            lblNumPlayers.Text = (squads.Count() > 0) ? squads[0].Count.ToString() : "0";
-
-            rptSquads.DataSource = squads;
-            rptSquads.DataBind();
-
-            int i = 0;
-            foreach (RepeaterItem item in rptSquads.Items)
+            try
             {
-                GridView grd = item.FindControl("grdSquad") as GridView;
-                grd.DataSource = squads[i];
-                grd.DataBind();
-                grd.FooterRow.Cells[0].Text = "Average";
-                grd.FooterRow.Cells[1].Text = Math.Round(squads[i].Average(ss => ss.SkatingRating),2).ToString();
-                grd.FooterRow.Cells[2].Text = Math.Round(squads[i].Average(ss => ss.ShootingRating),2).ToString();
-                grd.FooterRow.Cells[3].Text = Math.Round(squads[i].Average(ss => ss.CheckingRating),2).ToString();
-                i++;
-            }
+                List<PlayerData> remainingPlayers;
+                List<PlayerData>[] squads = Squads.GenerateSquads(numsquads, playerList, out remainingPlayers);
 
-            divWaitingList.Visible = remainingPlayers.Count() >= 1;
-            lblNumWaitList.Text = remainingPlayers.Count().ToString();
-            grdWaitList.DataSource = remainingPlayers;
-            grdWaitList.DataBind();
+                divSquads.Visible = squads.Count() > 0;
+                lblNumSquads.Text = squads.Count().ToString();
+                lblNumPlayers.Text = (squads.Count() > 0) ? squads[0].Count.ToString() : "0";
+
+                rptSquads.DataSource = squads;
+                rptSquads.DataBind();
+
+                int i = 0;
+                foreach (RepeaterItem item in rptSquads.Items)
+                {
+                    GridView grd = item.FindControl("grdSquad") as GridView;
+                    grd.DataSource = squads[i];
+                    grd.DataBind();
+                    grd.FooterRow.Cells[0].Text = "Average";
+                    grd.FooterRow.Cells[1].Text = Math.Round(squads[i].Average(ss => ss.SkatingRating), 2).ToString();
+                    grd.FooterRow.Cells[2].Text = Math.Round(squads[i].Average(ss => ss.ShootingRating), 2).ToString();
+                    grd.FooterRow.Cells[3].Text = Math.Round(squads[i].Average(ss => ss.CheckingRating), 2).ToString();
+                    i++;
+                }
+
+                divWaitingList.Visible = remainingPlayers.Count() >= 1;
+                lblNumWaitList.Text = remainingPlayers.Count().ToString();
+                grdWaitList.DataSource = remainingPlayers;
+                grdWaitList.DataBind();
+            }
+            catch (Exception ex)
+            {
+                lblError.Text = "An error occured: " + ex.Message;
+            }
         }
 
         protected void btnReset_Click(object sender, EventArgs e)
